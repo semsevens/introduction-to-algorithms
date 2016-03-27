@@ -20,20 +20,21 @@ int main(void) {
 }
 
 Result findMaxinumSubarrayLinear(int * arr, int low, int high) {
-    // base case
+    int sum = 0;
     int maxSum = MIN;
     int maxLeftIndex = -1;
     int maxRightIndex = -1;
-    int sum = 0;
+    int currentLeftIndex = low;
     for (int i = low; i <= high; i++) {
-        sum = 0;
-        for (int j = i; j >= low; j--) {
-            sum += arr[j];
-            if (sum > maxSum) {
-                maxSum = sum;
-                maxLeftIndex = j;
-                maxRightIndex = i + 1;
-            }
+        sum += arr[i];
+        if (sum > maxSum) {
+            maxSum = sum;
+            maxLeftIndex = currentLeftIndex;
+            maxRightIndex = i;
+        }
+        if (sum < 0) {
+            sum = 0;
+            currentLeftIndex = i + 1;
         }
     }
     return Result{maxLeftIndex, maxRightIndex, maxSum};
